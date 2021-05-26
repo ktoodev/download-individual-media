@@ -2,7 +2,7 @@
 /*
 Plugin Name: Download Individual Media
 Description: Add download options for individual media
-Version: 0.0.1
+Version: 0.0.2
 Author: David Purdy
 Author URI: https://dpurdy.com
 Text Domain: download-individual-media
@@ -32,9 +32,10 @@ EOS;
         'label' => 'Download',
         'input' => 'html',
         'html' => sprintf(
-            '<button type="button" style="margin-left: calc( 35%% - 1px ); margin-top: 3pt;" class="button button-small download-attachment-button"><a style="text-decoration:none" href="%s" download="%s">Download file</a></button><script>%s</script>',
+            '<a class="download-attachment-button" style="text-decoration:none" target="_blank" href="%s" download="%s">%s</a><script>%s</script>',
             wp_get_attachment_url($post->ID),
             $post->post_title,
+            basename(\wp_get_attachment_url($post->ID)),
             $script
         ),
     );
@@ -55,12 +56,12 @@ function audio_shortcode_download_link($output, $tag, $attr){
     $filetypes = array ('mp3', 'm4a', 'ogg', 'wav', 'wma');
     $download_list = array();
     foreach ($attr as $key => $value) {
+        $path_info = pathinfo ($value);
         if (in_array($key, $filetypes)) {
-            $download_list[] = '<a class="audio-download-link" href="' . $value . '" download="' . basename($value) . '">Download ' . $key . '</a>';
+            $download_list[] = '<a class="audio-download-link" target="_blank" href="' . $value . '" download="' . basename($value) . '">' . $path_info['basename'] . '</a>';
         }
         elseif (strtolower($key) == 'src') {
-            $path_info = pathinfo ($value);
-            $download_list[] = '<a class="audio-download-link" href="' . $value . '" download="' . basename($value) . '">Download ' . $path_info['extension'] . '</a>';
+            $download_list[] = '<a class="audio-download-link" target="_blank" href="' . $value . '" download="' . basename($value) . '">' . $path_info['basename'] . '</a>';
         }
     }
 
