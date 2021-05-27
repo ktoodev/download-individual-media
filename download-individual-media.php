@@ -32,7 +32,7 @@ EOS;
         'label' => 'Download',
         'input' => 'html',
         'html' => sprintf(
-            '<a class="download-attachment-button" style="text-decoration:none" target="_blank" href="%s" download="%s">%s</a><script>%s</script>',
+            '<a class="download-attachment-button" style="margin-left: calc( 35%% - 1px ); margin-top: 4pt;display: inline-block;" target="_blank" href="%s" download="%s">%s</a><script>%s</script>',
             wp_get_attachment_url($post->ID),
             $post->post_title,
             basename(\wp_get_attachment_url($post->ID)),
